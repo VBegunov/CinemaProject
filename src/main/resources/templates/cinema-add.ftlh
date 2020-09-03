@@ -22,6 +22,24 @@
         </form>
 
     </div>
+    <#if cinema.cinema_id??>
+        <form action="/cinemas/{cinema_id}/show_hall" method="get">
+        <#--        <select>-->
+        <#--            <#if cinemaHalls??>-->
+        <#if cinemaHalls??>
+            <#list cinemaHalls as hall>
+            <div>
+                <b>${hall.toString()}</b>
+            </div>
+            </#list>
+        </#if>
+        <#--                    <option value="${hall.cinemaHall_id}">${hall.toString()}</option>-->
+
+        <#--            </#if>-->
+        <#--        </select>-->
+    </form>
+    </#if>
+
 
 <#--    <form method="post">-->
 <#--        <select class="form-select-button">-->

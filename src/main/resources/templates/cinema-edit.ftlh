@@ -11,7 +11,7 @@
     <a href="/cinemas">Вернуться к списку кинотеатров</a>
 
     <div>
-        <form method="post">
+        <form method="post" action="/cinemas/${cinema_id}/edit">
             <input type="text" name="name" placeholder="Введите название кинотеатра"/>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             <button type="submit">Изменить</button>
@@ -22,7 +22,6 @@
     <form method="post" action="/cinemas/${cinema_id}/add_hall">
         <input type="number" name="rowCount" placeholder="Введите количество рядов"/>
         <input type="number" name="placeCount" placeholder="Введите количество мест"/>
-        <input type="hidden" name="cinema_id" value="cinema_id"/>
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit">Создать</button>
     </form>
@@ -30,13 +29,16 @@
     <br/>
 
     <form action="/cinemas/${cinema_id}/show_hall">
-        <select>
-            <#if cinemaHalls??>
+<#--        <select>-->
+<#--            <#if cinemaHalls??>-->
                 <#list cinemaHalls as hall>
-                    <option value="${hall.cinemaHall_id}">${hall.toString()}</option>
+                    <div>
+                        <b>${hall.toString()}</b>
+                    </div>
+<#--                    <option value="${hall.cinemaHall_id}">${hall.toString()}</option>-->
                 </#list>
-            </#if>
-        </select>
+<#--            </#if>-->
+<#--        </select>-->
     </form>
 
 </@c.page>

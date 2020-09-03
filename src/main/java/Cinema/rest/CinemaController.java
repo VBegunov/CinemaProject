@@ -76,13 +76,9 @@ public class CinemaController {
             Cinema newCinema = cinemaService.save(cinema);
             return "redirect:/cinemas/" + newCinema.getCinema_id();
         } catch (Exception ex) {
-            // log exception first,
-            // then show error
             String errorMessage = ex.getMessage();
             logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
-
-            model.addAttribute("add", true);
             return "cinema-add";
         }
     }
@@ -91,13 +87,11 @@ public class CinemaController {
     public String showEditCinema(Model model,
                                  @PathVariable long cinema_id) {
         Cinema cinema = null;
-
         try {
             cinema = cinemaService.findById(cinema_id);
         } catch (Exception ex) {
             model.addAttribute("errorMessage", ex.getMessage());
         }
-        model.addAttribute("add", false);
         model.addAttribute("cinema", cinema);
         assert cinema != null;
         model.addAttribute("cinemaHalls", cinema.getCinemaHalls());
@@ -106,12 +100,10 @@ public class CinemaController {
 
     @PostMapping(value = {"/cinemas/{cinema_id}/edit"})
     public String updateCinema(Model model,
-                               @AuthenticationPrincipal User user,
-                               @PathVariable long cinema_id,
-                               @ModelAttribute("cinema") Cinema cinema) {
+                               @RequestParam String name,
+                               @PathVariable("cinema_id") Cinema cinema) {
         try {
-            cinema.setUser(user);
-            cinema.setCinema_id(cinema_id);
+            cinema.setName(name);
             cinemaService.update(cinema);
             return "redirect:/cinemas/" + cinema.getCinema_id();
         } catch (Exception ex) {
@@ -134,7 +126,7 @@ public class CinemaController {
         }
         model.addAttribute("allowDelete", true);
         model.addAttribute("cinema", cinema);
-        return "cinema-edit";
+        return "cinema-list";
     }
 
     @PostMapping(value = {"/cinemas/{cinema_id}/delete"})
@@ -156,32 +148,22 @@ public class CinemaController {
     private CinemaHallService cinemaHallService;
 
     @PostMapping("/cinemas/{cinema_id}/add_hall")
-    public String addHall(@AuthenticationPrincipal User user,
-                          @RequestParam(value = "rowCount") Integer row,
+    public String addHall(@RequestParam(value = "rowCount") Integer row,
                           @RequestParam(value = "placeCount") Integer place,
-                          Map<String, Object> model,
-                          @PathVariable long cinema_id) throws Exception {
-        Cinema cinema = cinemaService.findById(cinema_id);
-        cinema.setUser(user);
-        cinema.setCinema_id(cinema_id);
-
-        CinemaHall cinemaHall = new CinemaHall(row, place, user);
+                          @PathVariable("cinema_id") Cinema cinema,
+                          Model model) throws Exception {
+        CinemaHall cinemaHall = new CinemaHall(row, place, cinema.getUser());
         cinemaHall.setCinema(cinema);
-
         cinema.getCinemaHalls().add(cinemaHall);
-
         cinemaHallService.save(cinemaHall);
         cinemaService.update(cinema);
-        List<CinemaHall> cinemaHalls = cinemaHallService.findAll();
-        model.put("cinemaHalls", cinemaHalls);
-        return "cinema-edit";
+        model.addAttribute("cinemaHalls", cinema.getCinemaHalls());
+        return "redirect:/cinemas/"+cinema.getCinema_id()+"/edit";
     }
 
     @GetMapping("/cinemas/{cinema_id}/show_hall")
-    public String showHall(Model model, @PathVariable long cinema_id) {
-        List<CinemaHall> cinemaHalls = cinemaHallService.findAll();
-        model.addAttribute("cinema", cinemaService.findById(cinema_id));
-        model.addAttribute("cinemaHalls", cinemaHalls);
+    public String showHall(Model model, @PathVariable("cinema_id") Cinema cinema) {
+        model.addAttribute("cinemaHalls", cinema.getCinemaHalls());
         return "cinema-edit";
     }
 }
