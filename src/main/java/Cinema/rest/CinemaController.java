@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 public class CinemaController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private final int ROW_PER_PAGE = 10;
 
     @Autowired
     private CinemaService cinemaService;
@@ -134,20 +134,21 @@ public class CinemaController {
         }
         model.addAttribute("allowDelete", true);
         model.addAttribute("cinema", cinema);
-        return "cinema";
+        return "cinema-edit";
     }
 
     @PostMapping(value = {"/cinemas/{cinema_id}/delete"})
     public String deleteCinemaById(
-            Model model, @PathVariable Long cinema_id) {
+            Model model, @PathVariable("cinema_id") Cinema cinema) {
         try {
-            cinemaService.deleteById(cinema_id);
+            cinemaHallService.deleteByCinema(cinema);
+            cinemaService.deleteById(cinema.getCinema_id());
             return "redirect:/cinemas";
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
             logger.error(errorMessage);
             model.addAttribute("errorMessage", errorMessage);
-            return "cinema";
+            return "cinema-edit";
         }
     }
 
@@ -163,9 +164,12 @@ public class CinemaController {
         Cinema cinema = cinemaService.findById(cinema_id);
         cinema.setUser(user);
         cinema.setCinema_id(cinema_id);
+
         CinemaHall cinemaHall = new CinemaHall(row, place, user);
         cinemaHall.setCinema(cinema);
+
         cinema.getCinemaHalls().add(cinemaHall);
+
         cinemaHallService.save(cinemaHall);
         cinemaService.update(cinema);
         List<CinemaHall> cinemaHalls = cinemaHallService.findAll();

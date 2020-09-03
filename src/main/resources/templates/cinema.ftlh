@@ -37,9 +37,9 @@
                 <tr>
                     <td>Зал</td>
                     <td>:</td>
-                    <td><#list cinema.cinemaHalls as cinemaHall>${cinemaHall + " ,"}
-                    <#else>
-                        Залы отсутствуют
+                    <td><#list cinema.cinemaHalls as cinemaHall>${cinemaHall}<#sep> ,
+<#--                    <#else>-->
+<#--                        Залы отсутствуют-->
                     </#list>
                 </tr>
             </div>

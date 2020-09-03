@@ -2,6 +2,8 @@
 
 <@c.page>
 User editor
+    <br/>
+    <a href="/cinemas">Вернуться к списку кинотеатров</a>
 
 <form action="/user" method="post">
     <input type="text" name="username" value="${user.username}">

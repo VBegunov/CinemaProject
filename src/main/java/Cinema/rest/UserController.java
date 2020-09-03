@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-@PreAuthorize("hasAuthority('ADMIN')")
+//@PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
@@ -29,7 +29,7 @@ public class UserController {
 
     @GetMapping("{user}")
     public String userEditForm(@PathVariable User user, Model model) {
-        model.addAttribute("user", userRepository.findByUsername(user.getUsername()));
+        model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
         return "userEdit";
     }

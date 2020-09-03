@@ -1,11 +1,13 @@
 package Cinema.service;
 
+import Cinema.model.Cinema;
 import Cinema.model.CinemaHall;
 import Cinema.repository.CinemaHallRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CinemaHallService {
@@ -43,6 +45,13 @@ public class CinemaHallService {
             cinemaHallRepository.deleteById(id);
         }
     }
+
+    public void deleteByCinema(Cinema cinema) throws Exception {
+        for(CinemaHall cinemaHall: cinema.getCinemaHalls()){
+            cinemaHallRepository.delete(cinemaHall);
+        }
+    }
+
 
     public Long count() {
         return cinemaHallRepository.count();

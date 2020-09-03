@@ -2,6 +2,8 @@
 
 <@c.page>
 List of users
+    <br/>
+    <a href="/cinemas">Вернуться к списку кинотеатров</a>
 
 <table>
     <thead>

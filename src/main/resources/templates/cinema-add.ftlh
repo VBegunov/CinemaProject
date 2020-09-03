@@ -17,17 +17,10 @@
     <div>
         <form method="post" action="/cinemas/add">
             <input type="text" name="name" placeholder="Введите название кинотеатра"/>
-            <#--            <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
-            <#--            <button type="submit">Добавить</button>-->
-        </form>
-        <br/> Создать зал <br/>
-        <form method="post" action="/add_hall">
-            <input type="number" name="row" placeholder="Введите количество рядов"/>
-            <input type="number" name="place" placeholder="Введите количество мест"/>
-        </form>
-        <br/>
             <input type="hidden" name="_csrf" value="${_csrf.token}"/>
             <button type="submit">Добавить</button>
+        </form>
+
     </div>
 
 <#--    <form method="post">-->
