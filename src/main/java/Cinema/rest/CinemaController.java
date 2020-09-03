@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Controller
 public class CinemaController {
@@ -62,7 +60,6 @@ public class CinemaController {
     @GetMapping(value = {"/cinemas/add"})
     public String showAddCinema(Model model) {
         Cinema cinema = new Cinema();
-        model.addAttribute("add", true);
         model.addAttribute("cinema", cinema);
         return "cinema-add";
     }
@@ -78,7 +75,6 @@ public class CinemaController {
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
             logger.error(errorMessage);
-            model.addAttribute("errorMessage", errorMessage);
             return "cinema-add";
         }
     }
@@ -124,7 +120,6 @@ public class CinemaController {
         } catch (Exception ex) {
             model.addAttribute("errorMessage", ex.getMessage());
         }
-        model.addAttribute("allowDelete", true);
         model.addAttribute("cinema", cinema);
         return "cinema-list";
     }
