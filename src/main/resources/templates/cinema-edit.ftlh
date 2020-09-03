@@ -2,12 +2,11 @@
 <#import "parts/login.ftlh" as l>
 
 <@c.page>
-    <div
-    >
+    <div>
         <@l.logout />
     </div>
     Cinema-edit
-    <br/><br/>
+    <br/>
     <a href="/cinemas">Вернуться к списку кинотеатров</a>
 
     <div>

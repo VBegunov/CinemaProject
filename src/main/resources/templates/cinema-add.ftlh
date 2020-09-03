@@ -2,16 +2,13 @@
 <#import "parts/login.ftlh" as l>
 
 <@c.page>
-    <div
-    >
+    <div>
         <@l.logout />
     </div>
-    Cinema-edit
+    Cinema-add
     <br/><br/>
     <a href="/cinemas">Вернуться к списку кинотеатров</a>
-
     <br/>
-
     <br/> Название кинотеатра <br/>
 
     <div>
@@ -34,7 +31,6 @@
             </#list>
         </#if>
         <#--                    <option value="${hall.cinemaHall_id}">${hall.toString()}</option>-->
-
         <#--            </#if>-->
         <#--        </select>-->
     </form>

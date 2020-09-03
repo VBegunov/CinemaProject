@@ -11,7 +11,7 @@
 
 
     <form method="get">
-        <table id="{id}" border="0px" cellspacing="2" cellpadding="5">
+        <table>
             <div>
                 <tr>
                     <td>Название кинотеатра</td>

@@ -15,7 +15,7 @@
     <br/><br/>
 
     <div>
-        <table border=0>
+        <table>
             <tr>
                 <th>ID
                 <th>Название кинотеатра
