@@ -41,9 +41,8 @@ public class CinemaHall {
 
     @Override
     public String toString() {
-        return "cinemaHall_id=" + cinemaHall_id +
-                ", rowCount=" + rowCount +
-                ", placeCount=" + placeCount ;
+        return "рядов=" + rowCount +
+                ", мест в ряду=" + placeCount ;
     }
 
     //    public CinemaHall(HallType typeCinemaHall, int rowCount, int placeCount) {

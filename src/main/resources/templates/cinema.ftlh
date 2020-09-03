@@ -13,13 +13,6 @@
     <form method="get">
         <table id="{id}" border="0px" cellspacing="2" cellpadding="5">
             <div>
-                <br/>
-                <td>ID</td>
-                <td>:</td>
-                <td>${cinema.cinema_id}</td>
-                </tr>
-            </div>
-            <div>
                 <tr>
                     <td>Название кинотеатра</td>
                     <td>:</td>
@@ -37,9 +30,10 @@
                 <tr>
                     <td>Зал</td>
                     <td>:</td>
-                    <td><#list cinema.cinemaHalls as cinemaHall>${cinemaHall}<#sep> ,
-<#--                    <#else>-->
-<#--                        Залы отсутствуют-->
+                    <td><#list cinema.cinemaHalls as cinemaHall>
+                           <div>
+                            ${cinemaHall}<#sep> ,
+                           </div>
                     </#list>
                 </tr>
             </div>

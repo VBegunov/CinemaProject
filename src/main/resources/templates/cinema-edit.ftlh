@@ -2,8 +2,8 @@
 <#import "parts/login.ftlh" as l>
 
 <@c.page>
-    <div xmlns:form="http://www.w3.org/1999/xhtml" xmlns:form="http://www.w3.org/1999/xhtml"
-         xmlns:form="http://www.w3.org/1999/xhtml">
+    <div
+    >
         <@l.logout />
     </div>
     Cinema-edit
@@ -28,17 +28,27 @@
 
     <br/>
 
-    <form action="/cinemas/${cinema_id}/show_hall">
+    <div>
+        <table>
+            <tr>
+                <th> id
+                <th> Зал в кинотеатре
+                    <th>
+                    <#list cinema.getCinemaHalls() as hall>
+            <tr>
+                <td>${hall.getCinemaHall_id()}
+                <td><b>${hall.toString()}</b>
+                <td>
+                    <form action="/cinemas/${cinema_id}/${hall.getCinemaHall_id()}/" method="POST">
+                        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                        <input type="submit" value="Удалить"/>
+                    </form>
+                    </#list>
+        </table>
+    </div>
 <#--        <select>-->
 <#--            <#if cinemaHalls??>-->
-                <#list cinemaHalls as hall>
-                    <div>
-                        <b>${hall.toString()}</b>
-                    </div>
 <#--                    <option value="${hall.cinemaHall_id}">${hall.toString()}</option>-->
-                </#list>
 <#--            </#if>-->
 <#--        </select>-->
-    </form>
-
 </@c.page>

@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -52,6 +55,7 @@ public class CinemaController {
         } catch (Exception ex) {
             model.addAttribute("errorMessage", ex.getMessage());
         }
+        assert cinema != null;
         model.addAttribute("cinemaHalls", cinema.getCinemaHalls());
         model.addAttribute("cinema", cinema);
         return "cinema";
@@ -153,12 +157,23 @@ public class CinemaController {
         cinemaHallService.save(cinemaHall);
         cinemaService.update(cinema);
         model.addAttribute("cinemaHalls", cinema.getCinemaHalls());
-        return "redirect:/cinemas/"+cinema.getCinema_id()+"/edit";
+        return "redirect:/cinemas/" + cinema.getCinema_id() + "/edit";
     }
 
     @GetMapping("/cinemas/{cinema_id}/show_hall")
     public String showHall(Model model, @PathVariable("cinema_id") Cinema cinema) {
         model.addAttribute("cinemaHalls", cinema.getCinemaHalls());
         return "cinema-edit";
+    }
+
+    @PostMapping("/cinemas/{cinema_id}/{cinemaHall_id}")
+    public String deleteHall(@PathVariable("cinemaHall_id") CinemaHall cinemaHall,
+                             @PathVariable("cinema_id") Cinema cinema,
+                             Model model) throws Exception {
+        cinema.getCinemaHalls().remove(cinemaHall);
+        cinemaHallService.deleteById(cinemaHall.getCinemaHall_id());
+        cinemaService.update(cinema);
+        model.addAttribute("cinema", cinema);
+        return "redirect:/cinemas/" + cinema.getCinema_id() + "/edit";
     }
 }
