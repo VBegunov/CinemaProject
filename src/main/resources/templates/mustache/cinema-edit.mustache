@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{{#add}}Создать кинотеатр{{/add}}{{^add}}Изменить кинотеатр{{/add}}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+
+<body>
+<div>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="submit" value="Выйти"/>
+    </form>
+</div>
+<br/><br/>
+
+<h1>{{#add}}Добавить кинотеатр:{{/add}}{{^add}}Изменить кинотеатр:{{/add}}</h1>
+<a href="/cinemas">Вернуться в начало</a>
+<br/><br/>
+
+<form action="{{#add}}/cinemas/add{{/add}} {{^add}}/cinemas/{{cinema.cinema_id}}/edit{{/add}}" name="cinema"
+      method="POST">
+    <table border="0">
+        {{#cinema.id}}
+            <tr>
+                <td>ID</td>
+                <td>:</td>
+                <td>{{cinema.cinema_id}}</td>
+            </tr>
+        {{/cinema.id}}
+        <tr>
+            <td>Название</td>
+            <td>:</td>
+            <td><input type="text" name="name" value="{{#cinema.name}}{{cinema.name}}{{/cinema.name}}"/></td>
+        </tr>
+    </table>
+
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <input type="submit" value="{{#add}}Создать{{/add}} {{^add}}Обновить{{/add}}"/>
+</form>
+
+
+
+
+
+<br/>
+<!-- Check if errorMessage is not null and not empty -->
+<div class="error">{{#errorMessage}}{{errorMessage}}{{/errorMessage}}</div>
+{{>footer}}
+</body>
+</html>

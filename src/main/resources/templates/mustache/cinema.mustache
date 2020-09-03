@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Кинотеатр</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+
+<body>
+<h1>Просмотр  кинотеатра</h1>
+<div>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="submit" value="Выйти"/>
+    </form>
+</div>
+<br/><br/>
+<a href="/cinemas">Вернуться к списку кинотеатров</a>
+<br/><br/>
+{{#cinema}}
+    <table border="0">
+        <tr>
+            <td>ID</td>
+            <td>:</td>
+            <td>{{cinema_id}}</td>
+        </tr>
+        <tr>
+            <td>Название кинотеатра</td>
+            <td>:</td>
+            <td>{{name}}</td>
+        </tr>
+        <tr>
+            <td>ID добавившего кинотеатр</td>
+            <td>:</td>
+            <td>{{userName}}</td>
+        </tr>
+    </table>
+
+    <br/><br/>
+
+    {{#allowDelete}}
+        <form action="/cinemas/{{cinema_id}}/delete" method="POST">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+            Удалить этот кинотеатр? <input type="submit" value="Да" />
+        </form>
+    {{/allowDelete}}
+
+    {{^allowDelete}}
+        <div>
+            <a href="/cinemas/{{cinema_id}}/edit">Изменить</a>
+            <a href="/cinemas/{{cinema_id}}/delete">Удалить</a>
+        </div>
+    {{/allowDelete}}
+
+{{/cinema}}
+
+{{#errorMessage}}
+    <div class="error">{{errorMessage}}</div>
+{{/errorMessage}}
+{{>footer}}
+</body>
+</html>

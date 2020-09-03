@@ -1,0 +1,32 @@
+<html>
+
+<body>
+<div>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>Список кинотеатров</div>
+<a href="/main">Main page</a>
+
+<form method="post" action="/hall">
+    <input type="number" name="rowCount" placeholder="Введите количество рядов"/>
+    <input type="number" name="placeCount" placeholder="Введите количество мест в ряду"/>
+
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <button type="submit">Добавить</button>
+</form>
+
+{{#cinemaHalls}}
+    <div>
+        <b>{{cinemaHall_id}}</b>
+        <span>{{rowCount}}</span>
+        <span>{{placeCount}}</span>
+        <strong> {{userName}}</strong>
+    </div>
+{{/cinemaHalls}}
+
+
+</body>
+</html>
