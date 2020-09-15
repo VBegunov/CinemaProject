@@ -1,19 +1,15 @@
 package Cinema.model;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+@NoArgsConstructor
+@Data
 @Entity
-@Getter
-@Setter
-@ToString
 public class Cinema implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +25,6 @@ public class Cinema implements Serializable {
 //    @OneToMany(mappedBy = "cinema", fetch = FetchType.EAGER)
 //    private List<CinemaHall> cinemaHalls;
 
-    public Cinema() {}
 
     public Cinema(@NonNull String name) {
         this.name = name;
