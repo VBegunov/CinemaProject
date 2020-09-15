@@ -3,6 +3,7 @@ package Cinema.rest;
 import Cinema.model.Cinema;
 import Cinema.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 //import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @RestController
-@RequestMapping("/cinemas")
+@RequestMapping("/rest/cinemas")
 public class CinemaController {
 
     private final CinemaService cinemaService;
@@ -24,6 +25,11 @@ public class CinemaController {
     public List<Cinema> getCinemas(){
         return cinemaService.findAll();
     }
+
+//    @GetMapping
+//    public ResponseEntity<?> getCinemas(){
+//        return ResponseEntity.ok().body(cinemaService.findAll());
+//    }
 
     @GetMapping("/{id}")
     public Cinema getCinemaById(@PathVariable("id") long id){

@@ -29,15 +29,13 @@ class ListCinemaComponent extends Component {
     }
 
     getCinemas() {
-        console.log(CinemaDataService.getCinemas());
         CinemaDataService.getCinemas()
             .then(
                 cinema => {
                     console.log(cinema);
-                    this.setState(
-                        // this.cinema_id = cinema.cinema_id
-                        {cinemas: cinema.data}
-                        )
+                    if(typeof cinema.data !== "string"){
+                        this.setState({cinemas: cinema.data})
+                    }
                 }
             )
     }
@@ -80,7 +78,7 @@ class ListCinemaComponent extends Component {
                         </TableHead>
                         <TableBody>
                             {this.state.cinemas}
-                            {/*{
+                            {
                                 this.state.cinemas.map((row) => (
                                     <StyledTableRow key={row.cinema_id}>
                                         <StyledTableCell align="left">{row.cinema_id}</StyledTableCell>
@@ -92,7 +90,7 @@ class ListCinemaComponent extends Component {
                                                 onClick={() => this.deleteCinemaClicked(row.cinema_id)}> Удалить </MyButton>
                                         </StyledTableCell>
                                     </StyledTableRow>
-                                ))}*/}
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -103,16 +101,16 @@ class ListCinemaComponent extends Component {
 }
 
 const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-        minWidth: 1,
-        maxWidth: 50
-    },
-    body: {
-        fontSize: 15,
-    },
-}))(TableCell);
+            head: {
+                backgroundColor: theme.palette.common.black,
+                color: theme.palette.common.white,
+                minWidth: 1,
+                maxWidth: 50
+            },
+            body: {
+                fontSize: 15,
+            },   }))
+(TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
@@ -127,8 +125,6 @@ const useStyles = makeStyles({
         minWidth: 700,
     },
 });
-
-console.log('render');
 
 const MyButton = styled(Button)({
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',

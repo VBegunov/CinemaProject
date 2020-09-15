@@ -24,14 +24,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
 //                .cors().and()
                 .authorizeRequests()
-                .antMatchers("/", "/generated/app-bundle.js").permitAll()
+                .antMatchers(
+                        "/", "/**/*.{js,html,css}").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .permitAll()
+                    .and()
+                        .formLogin()
+//                        .defaultSuccessUrl("/", true)
+                        .permitAll()
 //                .loginPage("/login").permitAll()
-                .and()
-                .logout().permitAll()
+                    .and()
+                        .logout()
+//                        .logoutSuccessUrl("/").permitAll()
                 ;
     }
 

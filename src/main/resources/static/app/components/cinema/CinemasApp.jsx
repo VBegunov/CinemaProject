@@ -4,10 +4,11 @@ import ButtonAppBar from "../containers/bar/NavigationBar";
 
 class CinemasApp extends Component {
     render() {
-        return (<>
+        return (
+            <div>
                 <ButtonAppBar/>
                 <CinemaApp/>
-            </>
+            </div>
         )
     }
 }

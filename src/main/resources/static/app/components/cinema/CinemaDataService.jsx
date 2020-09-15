@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-const CINEMAS_API_URL = 'http://localhost:8080';
+const CINEMAS_API_URL = 'http://localhost:8080/rest';
 const CINEMA_API_URL = '/cinemas';
 const CINEMAS_URL = `${CINEMAS_API_URL}${CINEMA_API_URL}`;
 
 class CinemaDataService {
 
     getCinemas() {
+        console.log("cinemas");
         return axios.get(`${CINEMAS_URL}`);
     }
 

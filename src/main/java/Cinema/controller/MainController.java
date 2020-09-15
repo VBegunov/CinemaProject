@@ -14,4 +14,8 @@ public class MainController {
         return "greeting";
     }
 
+    @GetMapping("/cinemas")
+    public String cinemas(){
+        return "cinemas";
+    }
 }
