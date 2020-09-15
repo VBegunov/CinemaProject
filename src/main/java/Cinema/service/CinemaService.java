@@ -1,7 +1,6 @@
 package Cinema.service;
 
 import Cinema.model.Cinema;
-import Cinema.model.CinemaHall;
 import Cinema.repository.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

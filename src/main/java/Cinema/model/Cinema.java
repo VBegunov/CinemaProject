@@ -22,26 +22,34 @@ public class Cinema implements Serializable {
     @NonNull
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "cinema", fetch = FetchType.EAGER)
-    private List<CinemaHall> cinemaHalls;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id")
+//    private User user;
+//
+//    @OneToMany(mappedBy = "cinema", fetch = FetchType.EAGER)
+//    private List<CinemaHall> cinemaHalls;
 
     public Cinema() {}
 
-    public Cinema(String name, User user) {
-        this.user = user;
+    public Cinema(@NonNull String name) {
         this.name = name;
     }
 
-    public Cinema(String name, List<CinemaHall> cinemaHalls) {
-        this.name = name;
-        this.cinemaHalls = cinemaHalls;
-    }
+    //    public Cinema(String name
+//            ,User user
+//    ) {
+//        this.user = user;
+//        this.name = name;
+//    }
 
-    public String getUserName() {
-        return user != null ? user.getUsername() : "<none>";
-    }
+//    public Cinema(String name
+//            , List<CinemaHall> cinemaHalls
+//    ) {
+//        this.name = name;
+//        this.cinemaHalls = cinemaHalls;
+//    }
+//
+//    public String getUserName() {
+//        return user != null ? user.getUsername() : "<none>";
+//    }
 }
