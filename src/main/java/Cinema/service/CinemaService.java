@@ -44,14 +44,14 @@ public class CinemaService {
         return cinemaRepository.save(cinema);
     }
 
-    public void update(Cinema cinema) throws Exception {
+    public Cinema update(Cinema cinema) throws Exception {
         if (StringUtils.isEmpty(cinema.getName())) {
             throw new Exception("Name is required");
         }
         if (!existsById(cinema.getCinema_id())) {
             throw new Exception("Cannot find Cinema with id: " + cinema.getCinema_id());
         }
-        cinemaRepository.save(cinema);
+        return cinemaRepository.save(cinema);
     }
 
     public void deleteById(Long id) throws Exception {

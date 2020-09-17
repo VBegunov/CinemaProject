@@ -2,7 +2,6 @@ package Cinema.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Map;
 
@@ -15,7 +14,12 @@ public class MainController {
     }
 
     @GetMapping("/cinemas")
-    public String cinemas(){
+    public String cinemas() {
         return "cinemas";
+    }
+
+    @GetMapping("/cinemas/{cinema_id}")
+    public String cinema() {
+        return "cinema";
     }
 }

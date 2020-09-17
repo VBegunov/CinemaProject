@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import CinemaDataService from "./CinemaDataService";
+
 import {makeStyles, styled, withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/Button";
+import { withRouter } from "react-router-dom";
 
 class ListCinemaComponent extends Component {
 
@@ -16,7 +18,7 @@ class ListCinemaComponent extends Component {
         super(props);
         this.state = {
             cinemas: [],
-            message: null
+            message : null
         };
         this.getCinemas = this.getCinemas.bind(this);
         this.deleteCinemaClicked = this.deleteCinemaClicked.bind(this);
@@ -32,8 +34,7 @@ class ListCinemaComponent extends Component {
         CinemaDataService.getCinemas()
             .then(
                 cinema => {
-                    console.log(cinema);
-                    if(typeof cinema.data !== "string"){
+                    if (typeof cinema.data !== "string") {
                         this.setState({cinemas: cinema.data})
                     }
                 }
@@ -63,34 +64,32 @@ class ListCinemaComponent extends Component {
     render() {
         return (
             <React.Fragment>
-
                 <TableContainer component={Paper}>
-                    <Table
-                        className={useStyles.table}
-                        aria-label="customized table" size={"small"}
-                    >
+                    <Table className={useStyles.table} aria-label="customized table" size={"small"}>
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>id</StyledTableCell>
                                 <StyledTableCell align="center">Название кинотеатра</StyledTableCell>
-                                <StyledTableCell align="left"> Прочее </StyledTableCell>
+                                <StyledTableCell align="left"> </StyledTableCell>
+                                <StyledTableCell align="left"> </StyledTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {this.state.cinemas}
-                            {
-                                this.state.cinemas.map((row) => (
-                                    <StyledTableRow key={row.cinema_id}>
-                                        <StyledTableCell align="left">{row.cinema_id}</StyledTableCell>
-                                        <StyledTableCell align="left">{row.name} </StyledTableCell>
-                                        <StyledTableCell align="left">
-                                            <MyButton
-                                                onClick={() => this.updateCinemaClicked(row.cinema_id)}> Изменить </MyButton>
-                                            <MyButton
-                                                onClick={() => this.deleteCinemaClicked(row.cinema_id)}> Удалить </MyButton>
-                                        </StyledTableCell>
-                                    </StyledTableRow>
-                                ))}
+                            {this.state.cinemas.map(cinema => (
+                                <StyledTableRow key={cinema.cinema_id}>
+                                    <StyledTableCell align="left">{cinema.cinema_id}</StyledTableCell>
+                                    <StyledTableCell align="center">{cinema.name} </StyledTableCell>
+
+                                    <StyledTableCell align="left">
+                                        <MyButton
+                                            onClick={() => this.updateCinemaClicked(cinema.cinema_id)}> Изменить </MyButton>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="center">
+                                        <MyButton
+                                            onClick={() => this.deleteCinemaClicked(cinema.cinema_id)}> Удалить </MyButton>
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -101,15 +100,16 @@ class ListCinemaComponent extends Component {
 }
 
 const StyledTableCell = withStyles((theme) => ({
-            head: {
-                backgroundColor: theme.palette.common.black,
-                color: theme.palette.common.white,
-                minWidth: 1,
-                maxWidth: 50
-            },
-            body: {
-                fontSize: 15,
-            },   }))
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+        minWidth: 1,
+        maxWidth: 50
+    },
+    body: {
+        fontSize: 15,
+    },
+}))
 (TableCell);
 
 const StyledTableRow = withStyles((theme) => ({
@@ -136,4 +136,4 @@ const MyButton = styled(Button)({
     padding: '0 15px',
 });
 
-export default ListCinemaComponent
+export default withRouter(ListCinemaComponent)

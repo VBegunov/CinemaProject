@@ -9,32 +9,34 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public WebSecurityConfig(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .cors().and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(
                         "/", "/**/*.{js,html,css}").permitAll()
                 .anyRequest().authenticated()
                     .and()
                         .formLogin()
-//                        .defaultSuccessUrl("/", true)
                         .permitAll()
 //                .loginPage("/login").permitAll()
                     .and()
                         .logout()
-//                        .logoutSuccessUrl("/").permitAll()
                 ;
     }
 

@@ -7,7 +7,7 @@ const CINEMAS_URL = `${CINEMAS_API_URL}${CINEMA_API_URL}`;
 class CinemaDataService {
 
     getCinemas() {
-        console.log("cinemas");
+        // console.log("cinemas");
         return axios.get(`${CINEMAS_URL}`);
     }
 
@@ -16,19 +16,18 @@ class CinemaDataService {
     }
 
     deleteCinema(cinema_id) {
+        axios.defaults.xsrfCookieName = "";
         return axios.delete(`${CINEMAS_URL}/${cinema_id}`);
     }
 
     updateCinema(cinema, cinema_id) {
-        console.log(cinema);
-        console.log("update");
+        console.log("update" + cinema);
         return axios.put(`${CINEMAS_URL}/${cinema_id}`, cinema);
     }
 
     createCinema(cinema) {
-        console.log(cinema);
-        console.log("create");
-        return axios.post(`${CINEMAS_URL}`, cinema);
+        console.log("create" + cinema);
+        return axios.post(`${CINEMAS_URL}/-1`, cinema);
     }
 }
 

@@ -4,14 +4,15 @@ import Cinema.model.Cinema;
 import Cinema.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 @RestController
 @RequestMapping("/rest/cinemas")
+@PreAuthorize("hasAuthority('ADMIN')")
 public class CinemaController {
 
     private final CinemaService cinemaService;
@@ -22,22 +23,34 @@ public class CinemaController {
     }
 
     @GetMapping
-    public List<Cinema> getCinemas(){
+    public List<Cinema> getCinemas() {
         return cinemaService.findAll();
     }
 
-//    @GetMapping
-//    public ResponseEntity<?> getCinemas(){
-//        return ResponseEntity.ok().body(cinemaService.findAll());
-//    }
-
-    @GetMapping("/{id}")
-    public Cinema getCinemaById(@PathVariable("id") long id){
+    @GetMapping("/{cinema_id}")
+    public Cinema getCinemaById(@PathVariable("cinema_id") long id) {
         return cinemaService.findById(id);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCinema(@PathVariable("id") long id) throws Exception {
+    @DeleteMapping("/{cinema_id}")
+    public void deleteCinema(@PathVariable("cinema_id") long id) throws Exception {
+        System.out.println("Delete");
         cinemaService.deleteById(id);
+    }
+
+    @PutMapping("/{cinema_id}")
+    public ResponseEntity<Cinema> updateCinema(@RequestBody Cinema cinema) throws Exception {
+        return ResponseEntity.ok().body(cinemaService.update(cinema));
+    }
+
+    @PostMapping("/{cinema_id}")
+    public ResponseEntity<Cinema> createCinema(@RequestBody Cinema cinema) throws Exception {
+        if (cinema.getCinema_id() == -1) {
+            Cinema newCinema = new Cinema();
+            newCinema.setName(cinema.getName());
+            return ResponseEntity.ok().body(cinemaService.save(newCinema));
+        } else {
+            return ResponseEntity.ok().body(cinema);
+        }
     }
 }

@@ -8,14 +8,12 @@ class CinemaApp extends Component {
     render() {
         return (
             <Router>
-                {/*<>*/}
                     <Switch>
                         <ButtonAppBar/>
-                        <Route path="/" exact component={ListCinemaComponent} />
-                        <Route path="/cinemas" exact component={ListCinemaComponent} />
-                        <Route path="/cinema/:cinema_id" component={CinemaComponent} />
+                        <Route path="/" exact Сomponent={ListCinemaComponent} />
+                        <Route path="/cinemas" exact Сomponent={ListCinemaComponent} />
+                        <Route path="/cinemas/:cinema_id" Сomponent={CinemaComponent} />
                     </Switch>
-                {/*</>*/}
             </Router>
         )
     }
