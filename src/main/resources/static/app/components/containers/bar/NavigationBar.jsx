@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(3),
     },
     title: {
         flexGrow: 1,
@@ -36,10 +36,10 @@ export default function ButtonAppBar() {
                     <Typography variant="button" className={classes.title} >
                         Кинотеатры
                     </Typography>
+
+
                     <Button color="inherit" href={"login"}>Войти</Button>
                     <Button color="inherit" href={"logout"}>Выйти</Button>
-
-
                     <Button color="inherit" href={"/cinemas"}>Кинотеатры</Button>
                 </Toolbar>
             </AppBar>
