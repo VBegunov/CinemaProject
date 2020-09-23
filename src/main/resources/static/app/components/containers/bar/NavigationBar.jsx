@@ -6,43 +6,69 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import CinemaDataService from "../../cinema/CinemaDataService";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(3),
-    },
-    title: {
-        flexGrow: 1,
-    },
-}));
+class ButtonAppBar extends React.Component {
 
-export default function ButtonAppBar() {
-    const classes = useStyles();
+    constructor(props) {
+        super(props);
+        this.checkAuth = this.checkAuth.bind(this);
+        this.state = {isLoggedIn: null};
+    }
 
-    return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <IconButton edge="start"
-                                className={classes.menuButton}
-                                color="inherit"
-                                aria-label="menu"
-                                href={"/"}>
-                        <MenuIcon/>
-                    </IconButton>
-                    <Typography variant="button" className={classes.title} >
-                        Кинотеатры
-                    </Typography>
+    componentDidMount() {
+        this.checkAuth();
+    }
 
+    checkAuth() {
+        CinemaDataService.getCinemas().then(data => {
+            if (typeof data.data == "object") this.setState({isLoggedIn: true});
+        });
+    }
 
-                    <Button color="inherit" href={"login"}>Войти</Button>
-                    <Button color="inherit" href={"logout"}>Выйти</Button>
-                    <Button color="inherit" href={"/cinemas"}>Кинотеатры</Button>
-                </Toolbar>
-            </AppBar>
-        </div>
-    );
+    render() {
+        const useStyles = makeStyles((theme) => ({
+            root: {
+                flexGrow: 1,
+            },
+            menuButton: {
+                marginRight: theme.spacing(2),
+            },
+            title: {
+                flexGrow: 1,
+            },
+        }));
+
+        let log;
+        if (this.state.isLoggedIn) {
+            log =
+                <div> <Button color="inherit"  href={"logout"}>Выйти</Button>
+                    <Button color="inherit" href={"/cinemas"}>Кинотеатры</Button> </div> ;
+        } else {
+            log = <Button color="inherit" href={"login"}>Войти</Button>;
+        }
+
+        return (
+            <div style={useStyles.root}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton edge="start"
+                                    style={useStyles.menuButton}
+                                    color="inherit"
+                                    aria-label="menu"
+                                    href={"/"}>
+                            <MenuIcon/>
+                        </IconButton>
+
+                        <Typography variant="h6" style={useStyles.title}>
+                            Кинотеатры
+                        </Typography>
+                        {log}
+                    </Toolbar>
+                </AppBar>
+            </div>
+        );
+    }
 }
+
+export default ButtonAppBar
