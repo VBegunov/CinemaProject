@@ -27,7 +27,6 @@ class ListCinemaComponent extends Component {
     }
 
     componentDidMount() {
-        console.log("nen")
         this.getCinemas();
     }
 

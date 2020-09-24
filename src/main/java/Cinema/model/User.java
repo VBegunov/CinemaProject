@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter @Setter @ToString
 public class User implements UserDetails, Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull

@@ -34,7 +34,6 @@ public class CinemaController {
 
     @DeleteMapping("/{cinema_id}")
     public void deleteCinema(@PathVariable("cinema_id") long id) throws Exception {
-        System.out.println("Delete");
         cinemaService.deleteById(id);
     }
 

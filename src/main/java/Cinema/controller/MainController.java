@@ -20,4 +20,14 @@ public class MainController {
     public String cinema() {
         return "cinema";
     }
+
+    @GetMapping("/users/{user_id}")
+    public String users() {
+        return "user";
+    }
+
+    @GetMapping("/users")
+    public String user() {
+        return "users";
+    }
 }
