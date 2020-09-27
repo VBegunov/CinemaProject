@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {lighten, makeStyles} from '@material-ui/core/styles';
@@ -21,27 +21,9 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import UserService from "./UserService";
-
-function deleteUser(user_id) {
-    UserService.deleteUser(user_id).then(
-
-    )
-}
-
-
-//
-// function addUser() {
-//     this.props.history.push(`/users/-1`);
-// }
-//
-// function updateUser(user_id) {
-//     console.log('update ' + user_id);
-//     this.props.history.push(`/users/${user_id}`)
-// }
-//
-// function createData(name, calories, fat, carbs, protein) {
-//     return {name, calories, fat, carbs, protein};
-// }
+import EditIcon from '@material-ui/icons/Edit';
+import Grid from "@material-ui/core/Grid";
+import AddIcon from '@material-ui/icons/Add';
 
 const headCells = [
     {id: 'id', numeric: false, disablePadding: true, label: 'id'},
@@ -51,30 +33,76 @@ const headCells = [
     {id: 'roles', numeric: true, disablePadding: false, label: 'Роль'},
 ];
 
-let deleteId;
-
 export default function EnhancedTable() {
-
-    const [rows, setRows] = useState([]);
-
-    useLayoutEffect(() => {
-        getUsers()
-    }, []);
-
-    function getUsers() {
-        UserService.getUsers().then(users => {
-                setRows(users.data);
-            }
-        );
-    }
-
     const classes = useStyles();
+    const [rows, setRows] = useState([]);
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [dense, setDense] = React.useState(true);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    useLayoutEffect(() => { getUsers() }, []);
+
+    function getUsers() { UserService.getUsers().then(users => { setRows(users.data); }); }
+    function deleteUser(user_id) { UserService.deleteUser(user_id).then(getUsers) }
+
+    const EnhancedTableToolbar = (props) => {
+        const classes = useToolbarStyles();
+        const {numSelected} = props;
+
+        return (
+            <Toolbar className={clsx(classes.root, {
+                    [classes.highlight]: numSelected > 0,
+                })} >
+                {numSelected > 0 ? (
+                    <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+                        {numSelected} selected
+                    </Typography>
+                ) : (
+                    <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+                        Пользователи
+                    </Typography>
+                )}
+
+                {numSelected > 0 ? (
+                        <Grid container justify='flex-end'>
+                            <Grid item>
+                                <Tooltip title={"Update"}>
+                                    <IconButton aria-label="update" component={"a"} href={`/users/${selected}`}>
+                                        <EditIcon/>
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Delete">
+                                    <IconButton aria-label="delete" onClick={() => {
+                                        deleteUser(selected);
+                                        setSelected([])
+                                    }}>
+                                        <DeleteIcon/>
+                                    </IconButton>
+                                </Tooltip>
+                            </Grid>
+                        </Grid>
+                ) : (
+                    <Grid container justify='flex-end'>
+                        <Grid item>
+                            <Tooltip title="Filter list">
+                                <IconButton aria-label="filter list">
+                                    <FilterListIcon/>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Add User">
+                                <IconButton aria-label="Add User" component={"a"} href={`/users/-1`}>
+                                    <AddIcon/>
+                                </IconButton>
+                            </Tooltip>
+                        </Grid>
+                    </Grid>
+                )}
+            </Toolbar>
+        );
+    };
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -109,8 +137,6 @@ export default function EnhancedTable() {
 
         }
         setSelected(newSelected);
-        deleteId = newSelected;
-        console.log(newSelected)
     };
 
     const handleChangePage = (event, newPage) => {
@@ -290,7 +316,7 @@ EnhancedTableHead.propTypes = {
 const useToolbarStyles = makeStyles((theme) => ({
     root: {
         paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
+        paddingRight: theme.spacing(1)
     },
     highlight:
         theme.palette.type === 'light'
@@ -307,50 +333,11 @@ const useToolbarStyles = makeStyles((theme) => ({
     },
 }));
 
-const EnhancedTableToolbar = (props) => {
-    const classes = useToolbarStyles();
-    const {numSelected} = props;
 
-    return (
-        <Toolbar
-            className={clsx(classes.root, {
-                [classes.highlight]: numSelected > 0,
-            })}
-        >
-            {numSelected > 0 ? (
-                <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-                    {numSelected} selected
-                </Typography>
-            ) : (
-                <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                    Пользователи
-                </Typography>
-            )}
 
-            {numSelected > 0 ? (
-                <Tooltip title="Delete">
-                    <IconButton aria-label="delete">
-                        <DeleteIcon
-                            onClick={
-                                () => {console.log(deleteId);}
-                                // () => {deleteUser(deleteId)}
-                            }/>
-                    </IconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <IconButton aria-label="filter list">
-                        <FilterListIcon/>
-                    </IconButton>
-                </Tooltip>
-            )}
-        </Toolbar>
-    );
-};
-
-EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-};
+// EnhancedTableToolbar.propTypes = {
+//     numSelected: PropTypes.number.isRequired,
+// };
 
 const useStyles = makeStyles((theme) => ({
     root: {

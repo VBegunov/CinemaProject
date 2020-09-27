@@ -17,8 +17,6 @@ class Cinema extends Component {
     }
 
     componentDidMount() {
-
-
         CinemaDataService.showCinema(this.state.cinema_id)
             .then(response => this.setState({
                 name: response.data.name
@@ -52,8 +50,10 @@ class Cinema extends Component {
 
     checkButton(){
         if(this.state.cinema_id == -1){
+            console.log("create")
             return "Создать";
         } else {
+            console.log("update")
             return "Изменить";
         }
     }

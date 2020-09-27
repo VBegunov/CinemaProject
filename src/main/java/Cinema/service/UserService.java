@@ -1,6 +1,5 @@
 package Cinema.service;
 
-import Cinema.model.Role;
 import Cinema.model.User;
 import Cinema.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -39,17 +38,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User save(User user) {
-        User newUser = new User();
-        newUser.setActive(true);
-        newUser.setRoles(Collections.singleton(Role.USER));
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(user.getPassword());
-        return newUser;
+        return userRepository.save(user);
     }
 
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
-
-
 }

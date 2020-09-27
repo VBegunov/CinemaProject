@@ -7,7 +7,6 @@ const CINEMAS_URL = `${CINEMAS_API_URL}${CINEMA_API_URL}`;
 class CinemaDataService {
 
     getCinemas() {
-        // console.log("cinemas");
         return axios.get(`${CINEMAS_URL}`);
     }
 
@@ -16,7 +15,6 @@ class CinemaDataService {
     }
 
     deleteCinema(cinema_id) {
-        axios.defaults.xsrfCookieName = "";
         return axios.delete(`${CINEMAS_URL}/${cinema_id}`);
     }
 

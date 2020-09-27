@@ -1,9 +1,7 @@
 package Cinema.model;
 
 import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usr")
-@Getter @Setter @ToString
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +29,8 @@ public class User implements UserDetails, Serializable {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+
 
     @Override
     public boolean isAccountNonExpired() {

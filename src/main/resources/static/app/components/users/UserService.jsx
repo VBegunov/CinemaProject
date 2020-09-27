@@ -14,16 +14,26 @@ class UserService {
         return axios.get(`${CINEMAS_URL}/${user_id}`);
     }
 
+    showThisUser() {
+        return axios.get(`${CINEMAS_URL}/user`);
+    }
+
     deleteUser(user_id) {
         return axios.delete(`${CINEMAS_URL}/${user_id}`);
     }
 
-    updateUser(user, user_id) {
-        return axios.put(`${CINEMAS_URL}/${user_id}`, user);
+    updateUser(user) {
+        console.log("update")
+        return axios.put(`${CINEMAS_URL}/${user.id}`, user);
     }
 
     createUser(user) {
+        console.log("create")
         return axios.post(`${CINEMAS_URL}/-1`, user);
+    }
+
+    authenticationUser () {
+        return axios.get(`http://localhost:8080/this_user`);
     }
 }
 
