@@ -37,12 +37,12 @@ public class CinemaController {
         cinemaService.deleteById(id);
     }
 
-    @PutMapping("/{cinema_id}")
+    @PutMapping
     public ResponseEntity<Cinema> updateCinema(@RequestBody Cinema cinema) throws Exception {
         return ResponseEntity.ok().body(cinemaService.update(cinema));
     }
 
-    @PostMapping("/{cinema_id}")
+    @PostMapping
     public ResponseEntity<Cinema> createCinema(@RequestBody Cinema cinema) throws Exception {
         if (cinema.getCinema_id() == -1) {
             Cinema newCinema = new Cinema();

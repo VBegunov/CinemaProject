@@ -2,9 +2,6 @@ package Cinema.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.security.Principal;
 
 @Controller
 public class MainController {
@@ -29,19 +26,13 @@ public class MainController {
         return "user";
     }
 
-    @GetMapping("/users")
-    public String userById() {
-        return "users";
-    }
-
     @GetMapping("/user")
-    public String user() {
+    public String profile() {
         return "profile";
     }
 
-    @GetMapping(value = "/this_user")
-    @ResponseBody
-    public String currentUserName(Principal principal) {
-        return principal.getName();
+    @GetMapping("/users")
+    public String userById() {
+        return "users";
     }
 }

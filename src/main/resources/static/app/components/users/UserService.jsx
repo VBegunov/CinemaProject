@@ -1,39 +1,37 @@
 import axios from 'axios';
 
-const CINEMAS_API_URL = 'http://localhost:8080/rest';
-const CINEMA_API_URL = '/users';
-const CINEMAS_URL = `${CINEMAS_API_URL}${CINEMA_API_URL}`;
+const USER_URL = 'http://localhost:8080/rest/users';
 
 class UserService {
 
     getUsers() {
-        return axios.get(`${CINEMAS_URL}`);
+        return axios.get(`${USER_URL}`);
     }
 
     showUser(user_id) {
-        return axios.get(`${CINEMAS_URL}/${user_id}`);
+        return axios.get(`${USER_URL}/${user_id}`);
     }
 
     showThisUser() {
-        return axios.get(`${CINEMAS_URL}/user`);
+        return axios.get(`${USER_URL}/user`);
     }
 
     deleteUser(user_id) {
-        return axios.delete(`${CINEMAS_URL}/${user_id}`);
+        return axios.delete(`${USER_URL}/${user_id}`);
     }
 
     updateUser(user) {
-        console.log("update")
-        return axios.put(`${CINEMAS_URL}/${user.id}`, user);
+        return axios.put(`${USER_URL}`, user);
     }
 
     createUser(user) {
-        console.log("create")
-        return axios.post(`${CINEMAS_URL}/-1`, user);
+        console.log("create", user)
+        return axios.post(`${USER_URL}`, user);
     }
 
-    authenticationUser () {
-        return axios.get(`http://localhost:8080/this_user`);
+    registrationUser(user) {
+        console.log("create", user)
+        return axios.post(`http://localhost:8080/registration`, user);
     }
 }
 

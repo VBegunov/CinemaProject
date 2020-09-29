@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import UserService from "./UserService";
 
 
-class User extends Component {
+class Profile extends Component {
 
     constructor(props) {
         super(props);
@@ -90,4 +90,4 @@ class User extends Component {
     }
 }
 
-export default User
+export default Profile

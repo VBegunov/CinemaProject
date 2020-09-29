@@ -9,7 +9,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
-import CinemaDataService from "../../cinema/CinemaDataService";
 import UserService from "../../users/UserService";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,24 +28,21 @@ function MenuAppBar() {
 
     const [authADMIN, setAuthADMIN] = React.useState(false);
     const [auth, setAuth] = React.useState(false);
-
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
     useEffect(() => {
-        UserService.authenticationUser().then(data => {
-            if (data.request.responseURL !== "http://localhost:8080/login") {
-                setAuth(true);
-                UserService.showThisUser()
-                    .then(data => {
-                        data.data.roles.map(index => {
-                            if(index === "ADMIN") {
-                                setAuthADMIN(true);
-                            }
-                        })
-                    }).catch();
-            }
-        })
+        UserService.showThisUser()
+            .then(data => {
+                if (data.data.active === true) {
+                    setAuth(true);
+                    data.data.roles.map(index => {
+                        if (index === "ADMIN") {
+                            setAuthADMIN(true);
+                        }
+                    })
+                }
+            }).catch();
     }, []);
 
     const handleMenu = (event) => {
@@ -57,40 +53,32 @@ function MenuAppBar() {
         setAnchorEl(null);
     };
 
-
     const logAdmin = () => {
         if (authADMIN) {
-            return <Menu id="menu-appbar" anchorEl={anchorEl}
-                         anchorOrigin={{vertical: 'top', horizontal: 'right'}} keepMounted
-                         transformOrigin={{vertical: 'top', horizontal: 'right',}} open={open} onClose={handleClose}>
-                <MenuItem onClick={handleClose} component={"a"} href={`/user`}>Профиль</MenuItem>
+            return <div>
                 <MenuItem onClick={handleClose} component={"a"} href={"/cinemas"}>Кинотеатры</MenuItem>
                 <MenuItem onClick={handleClose} component={"a"} href={"/users"}>Пользователи</MenuItem>
-                <MenuItem onClick={handleClose} component={"a"} href={"/logout"}>Выйти</MenuItem>
-            </Menu>;
-        }
-        if (auth) {
-            return <Menu id="menu-appbar" anchorEl={anchorEl}
-                         anchorOrigin={{vertical: 'top', horizontal: 'right'}} keepMounted
-                         transformOrigin={{vertical: 'top', horizontal: 'right',}} open={open} onClose={handleClose}>
-                <MenuItem onClick={handleClose} component={"a"} href={`/user`}>Профиль</MenuItem>
-                <MenuItem onClick={handleClose} component={"a"} href={"/logout"}>Выйти</MenuItem>
-            </Menu>;
+            </div>;
         }
     };
 
     const login = () => {
-        if (auth === false) {
+        if (!auth) {
             return <Button color="inherit" href={"login"}>Войти</Button>
-        }
-        if (auth === true) {
+        } else {
             return <div>
                 <IconButton
                     aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true"
                     onClick={handleMenu} color="inherit">
                     <AccountCircle/>
                 </IconButton>
-                {logAdmin()}
+                <Menu id="menu-appbar" anchorEl={anchorEl}
+                      anchorOrigin={{vertical: 'top', horizontal: 'right'}} keepMounted
+                      transformOrigin={{vertical: 'top', horizontal: 'right',}} open={open} onClose={handleClose}>
+                    <MenuItem onClick={handleClose} component={"a"} href={`/user`}>Профиль</MenuItem>
+                    {logAdmin()}
+                    <MenuItem onClick={handleClose} component={"a"} href={"/logout"}>Выйти</MenuItem>
+                </Menu>
             </div>
         }
     };

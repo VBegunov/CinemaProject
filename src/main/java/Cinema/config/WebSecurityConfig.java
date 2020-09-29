@@ -3,6 +3,7 @@ package Cinema.config;
 import Cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(
-                         "/", "/registration", "/**/*.{js,html,css}").permitAll()
+                .antMatchers("/registration").not().fullyAuthenticated()
+                .antMatchers("/", "/registration", "/**/*.{js,html,css}").permitAll()
                 .anyRequest().authenticated()
                     .and()
                         .formLogin()

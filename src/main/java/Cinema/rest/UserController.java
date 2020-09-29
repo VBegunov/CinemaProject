@@ -29,6 +29,7 @@ public class UserController {
         return userService.getUsers();
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") Long id) {
         return userService.findById(id);
@@ -42,13 +43,13 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") List list) {
-        for (Object lll : list) {
-            System.out.println(lll.toString());
-            userService.deleteById(Long.valueOf(lll.toString()));
+        for (Object idUser : list) {
+            userService.deleteById(Long.valueOf(idUser.toString()));
         }
     }
 
-    @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
         User newUser = new User();
         newUser.setPassword(user.getPassword());
@@ -60,9 +61,9 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable long id) {
-        User updateUser = userService.findById(id);
+    @PutMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        User updateUser = userService.findById(user.getId());
         updateUser.setUsername(user.getUsername());
         updateUser.setPassword(user.getPassword());
         updateUser.setRoles(user.getRoles());

@@ -48,6 +48,12 @@ export default function EnhancedTable() {
     function getUsers() { UserService.getUsers().then(users => { setRows(users.data); }); }
     function deleteUser(user_id) { UserService.deleteUser(user_id).then(getUsers) }
 
+    function checkValue() {
+        if(selected.length === 1){
+            return <EditIcon/>
+        }
+    }
+
     const EnhancedTableToolbar = (props) => {
         const classes = useToolbarStyles();
         const {numSelected} = props;
@@ -71,7 +77,7 @@ export default function EnhancedTable() {
                             <Grid item>
                                 <Tooltip title={"Update"}>
                                     <IconButton aria-label="update" component={"a"} href={`/users/${selected}`}>
-                                        <EditIcon/>
+                                        {checkValue()}
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Delete">
