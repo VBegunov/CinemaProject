@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ListCinemaComponent from "./cinema/ListCinemaComponent";
+import ListCinemaComponent from "./cinema/Cinemas";
 
 class cinemasPage extends Component {
 

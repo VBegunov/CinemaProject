@@ -1,93 +1,84 @@
-import React, {Component} from "react";
-import {Formik} from 'formik';
-import {TextField} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import React, {useLayoutEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import UserService from "./UserService";
+import {useHistory} from "react-router-dom";
 
+export default function Profile() {
+    const classes = useStyles();
+    const history = useHistory();
+    const [id, setId] = React.useState('');
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [active, setActive] = React.useState('');
+    const [roles, setRoles] = React.useState([]);
 
-class Profile extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: this.props.match.params.id,
-            username: '',
-            password: '',
-            active: '',
-            roles: []
-        };
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    componentDidMount() {
-
-        UserService.showThisUser(this.state.id).then(resp => {
-            this.setState({
-                username: resp.data.username,
-                password: resp.data.password,
-                active: resp.data.active,
-                roles: resp.data.roles
-            })
+    function getUser() {
+        UserService.showThisUser().then(user => {
+            setId(user.data.id);
+            setUsername(user.data.username);
+            setPassword(user.data.password);
+            setActive(user.data.active);
+            setRoles(user.data.roles);
         })
     }
 
-    onSubmit(values) {
+    useLayoutEffect(() => {
+        getUser()
+    }, []);
+
+
+    function onSubmit() {
         let user = {
-            id: this.state.id,
-            username: values.username,
-            password: values.password,
-            active: values.active,
-            roles: values.roles
+            id: id,
+            username: username,
+            password: password,
+            active: active,
+            roles: roles,
         };
         UserService.updateUser(user)
-            .then(() => this.props.history.push('/'));
+            .then();
+        history.push("/");
     }
 
-    render() {
-        let {username, password, id, active, roles} = this.state;
-        return (
-            <div>
-                <h3>Кинотеатра</h3>
-                <div className="container">
-                    <Formik
-                        initialValues={{id, username, password, active, roles}}
-                        onSubmit={this.onSubmit}>
-                        {
-                            ({values, handleChange, handleBlur, handleSubmit}) => (
-                                <form onSubmit={handleSubmit}>
-                                    <TextField name="id" type="hidden" value={this.state.id} disabled/>
-                                    <div>
-                                        <div>
-                                            <TextField id="standard-textarea"
-                                                       name={"username"} value={values.username} label={username}
-                                                       onChange={handleChange} onBlur={handleBlur}
-                                                       placeholder={"Логин"}
-                                            />
-                                        </div>
-                                        <div>
-                                            <TextField id="standard-textarea"
-                                                       name={"password"} value={values.password} label={password}
-                                                       onChange={handleChange} onBlur={handleBlur}
-                                                       placeholder={"Пароль"}
-                                            />
-                                            <TextField name="active" type="hidden" value={this.state.active} disabled/>
-                                            <TextField name="roles" type="hidden" value={this.state.roles} disabled/>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <br/>
-                                        <Button variant="outlined" color="primary" size={"small"} type={"submit"}>
-                                            Изменить
-                                        </Button>
-                                    </div>
-                                </form>
-                            )
-                        }
-                    </Formik>
-                </div>
-            </div>
-        )
-    }
+    return (
+        <Grid container spacing={0} direction="column" alignItems="center"
+              justify="center" style={{minHeight: '80vh'}}>
+
+            <Typography component="h1" variant="h5">Профиль</Typography>
+
+            <form className={classes.root} onSubmit={onSubmit}>
+                <TextField id="standard-basic" label={"Login"}
+                           value={username} onChange={e => setUsername(e.target.value)}/>
+                <br/>
+                <TextField id="standard-basic" label={"Password"}
+                           value={password} onChange={e => setPassword(e.target.value)}/>
+                <br/>
+                <Button type="submit" fullWidth
+                        variant="contained" color="primary"
+                        className={classes.submit}
+                >
+                    <Typography component="h5">
+                        Изменить
+                    </Typography>
+                </Button>
+            </form>
+        </Grid>
+    );
 }
 
-export default Profile
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
+    },
+    submit: {
+        margin: theme.spacing(1),
+    }
+}));
+

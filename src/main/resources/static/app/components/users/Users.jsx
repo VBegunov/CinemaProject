@@ -43,7 +43,7 @@ export default function EnhancedTable() {
     const [dense, setDense] = React.useState(true);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-    useLayoutEffect(() => { getUsers() }, []);
+    useLayoutEffect(() => { getUsers(); }, []);
 
     function getUsers() { UserService.getUsers().then(users => { setRows(users.data); }); }
     function deleteUser(user_id) { UserService.deleteUser(user_id).then(getUsers) }

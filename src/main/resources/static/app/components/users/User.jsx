@@ -72,19 +72,21 @@ const BootstrapInput = withStyles((theme) => ({
 export default function SimpleSelect() {
     const classes = useStyles();
     const history = useHistory();
-    const [id, setId] = React.useState('');
+    const [id, setId] = React.useState(-1);
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [active, setActive] = React.useState('');
-    const [roles, setRoles] = React.useState(['USER']);
+    const [roles, setRoles] = React.useState([]);
 
     function getUser(){
         UserService.showUser(history.location.pathname.split(['/']).pop()).then(user => {
-            setId(user.data.id);
-            setUsername(user.data.username);
-            setPassword(user.data.password);
-            setActive(user.data.active);
-            setRoles(user.data.roles);
+            if(history.location.pathname.split(['/']).pop() > 0){
+                setId(user.data.id);
+                setUsername(user.data.username);
+                setPassword(user.data.password);
+                setActive(user.data.active);
+                setRoles(user.data.roles);
+            }
         })
     }
 
@@ -101,9 +103,13 @@ export default function SimpleSelect() {
             active: active,
             roles: roles,
         };
-        UserService.updateUser(user)
-            .then();
-        history.push('/users');
+        if(id > 0){
+            UserService.updateUser(user).then();
+            history.push("/users");
+        } else {
+            UserService.createUser(user).then();
+            history.push("/users");
+        }
     }
 
     const handleChangeRoles = (event) => {

@@ -26,7 +26,7 @@ public class MainController {
         return "user";
     }
 
-    @GetMapping("/user")
+    @GetMapping("/profile")
     public String profile() {
         return "profile";
     }

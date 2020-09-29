@@ -60,7 +60,6 @@ public class UserController {
         return ResponseEntity.ok().body(userService.save(newUser));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         User updateUser = userService.findById(user.getId());

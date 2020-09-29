@@ -1,97 +1,90 @@
-import React, {Component} from "react";
-import CinemaDataService from "./CinemaDataService";
-import {Formik} from 'formik';
-import {TextField} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
+import React, {useLayoutEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import {useHistory} from "react-router-dom";
+import CinemaService from "./CinemaService";
 
+export default function Profile() {
+    const classes = useStyles();
+    const history = useHistory();
+    const [id, setId] = React.useState(-1);
+    const [name, setName] = React.useState('');
 
-class Cinema extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            cinema_id: this.props.match.params.cinema_id,
-            name: ''
-        };
-        this.onSubmit = this.onSubmit.bind(this);
+    function getCinema() {
+        CinemaService.showCinema(history.location.pathname.split(['/']).pop()).then(cinema => {
+            if(history.location.pathname.split(['/']).pop()>0){
+                setId(cinema.data.cinema_id);
+                setName(cinema.data.name);
+            }
+        })
     }
 
-    componentDidMount() {
-        CinemaDataService.showCinema(this.state.cinema_id)
-            .then(response => this.setState({
-                name: response.data.name
-            }))
-    }
+    useLayoutEffect(() => {
+        getCinema()
+    }, []);
 
-    onSubmit(values) {
+
+    function onSubmit() {
         let cinema = {
-            cinema_id: this.state.cinema_id,
-            name: values.name
+            cinema_id: id,
+            name: name,
         };
-        if (this.state.cinema_id == -1) {
-            CinemaDataService.createCinema(cinema)
-                .then(() => this.props.history.push('/cinemas'))
+        if(id < 0){
+            CinemaService.createCinema(cinema).then();
+            history.push("/cinemas");
         } else {
-            CinemaDataService.updateCinema(cinema)
-                .then(() => this.props.history.push('/cinemas'))
-        }
-        console.log(cinema);
-    }
-
-    checkValue(value) {
-        if (value == -1) {
-            return null;
-        } else {
-            return (<TextField name="cinema_id"
-                               value={this.state.cinema_id}
-                               disabled/>);
+            CinemaService.updateCinema(cinema)
+                .then();
+            history.push("/cinemas");
         }
     }
 
-    checkButton(){
-        if(this.state.cinema_id == -1){
-            console.log("create")
+    function checkCinema() {
+        if(id < 0){
             return "Создать";
         } else {
-            console.log("update")
             return "Изменить";
         }
     }
 
-    render() {
-        let {name, cinema_id} = this.state;
-        return (
-            <div>
-                <h3>Кинотеатра</h3>
-                <div className="container">
-                    <Formik
-                        initialValues={{cinema_id, name}}
-                        onSubmit={this.onSubmit}>
-                        {
-                            ({values, handleChange, handleBlur, handleSubmit}) => (
-                                <form onSubmit={handleSubmit}>
-                                    <div>{this.checkValue(cinema_id)}</div>
-                                    <div>
-                                        <TextField id="standard-textarea"
-                                                   name={"name"} value={values.name} label={name}
-                                                   onChange={handleChange} onBlur={handleBlur}
-                                                   placeholder={"Название кинотеатра"}
-                                        />
-                                    </div>
-                                    <div>
-                                        <br/>
-                                        <Button variant="outlined" color="primary" size={"small"} type={"submit"}>
-                                            {this.checkButton()}
-                                        </Button>
-                                    </div>
-                                </form>
-                            )
-                        }
-                    </Formik>
-                </div>
-            </div>
-        )
-    }
+    return (
+        <Grid container spacing={0} direction="column" alignItems="center"
+              justify="center" style={{minHeight: '80vh'}}>
+
+            <Typography component="h1" variant="h5">Кинотеатр</Typography>
+
+            <form className={classes.root} onSubmit={onSubmit}>
+                <TextField id="standard-basic" label={"id"}
+                           value={id} disabled/>
+                <br/>
+                <TextField id="standard-basic" label={"Название кинотеатра"}
+                           value={name} onChange={e => setName(e.target.value)}/>
+                <br/>
+                <Button type="submit" fullWidth
+                        variant="contained" color="primary"
+                        className={classes.submit}
+                >
+                    <Typography component="h5">
+                        {checkCinema()}
+                    </Typography>
+                </Button>
+            </form>
+        </Grid>
+    );
 }
 
-export default Cinema
+const useStyles = makeStyles((theme) => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1),
+            width: '25ch',
+        },
+    },
+    submit: {
+        margin: theme.spacing(1),
+    }
+}));
+

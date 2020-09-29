@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import UserService from "../../users/UserService";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MenuAppBar() {
+    const history = useHistory();
     const classes = useStyles();
 
     const [authADMIN, setAuthADMIN] = React.useState(false);
@@ -75,7 +77,7 @@ function MenuAppBar() {
                 <Menu id="menu-appbar" anchorEl={anchorEl}
                       anchorOrigin={{vertical: 'top', horizontal: 'right'}} keepMounted
                       transformOrigin={{vertical: 'top', horizontal: 'right',}} open={open} onClose={handleClose}>
-                    <MenuItem onClick={handleClose} component={"a"} href={`/user`}>Профиль</MenuItem>
+                    <MenuItem onClick={handleClose} component={"a"} href={`/profile`}>Профиль</MenuItem>
                     {logAdmin()}
                     <MenuItem onClick={handleClose} component={"a"} href={"/logout"}>Выйти</MenuItem>
                 </Menu>

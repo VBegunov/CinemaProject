@@ -32,24 +32,24 @@ public class CinemaController {
         return cinemaService.findById(id);
     }
 
-    @DeleteMapping("/{cinema_id}")
-    public void deleteCinema(@PathVariable("cinema_id") long id) throws Exception {
-        cinemaService.deleteById(id);
+    @DeleteMapping("/{id}")
+    public void deleteCinema(@PathVariable("id") List list) throws Exception {
+        for(Object id: list){
+            cinemaService.deleteById(Long.valueOf(id.toString()));
+        }
     }
 
     @PutMapping
     public ResponseEntity<Cinema> updateCinema(@RequestBody Cinema cinema) throws Exception {
-        return ResponseEntity.ok().body(cinemaService.update(cinema));
+        Cinema updateCinema = cinemaService.findById(cinema.getCinema_id());
+        updateCinema.setName(cinema.getName());
+        return ResponseEntity.ok().body(cinemaService.update(updateCinema));
     }
 
     @PostMapping
     public ResponseEntity<Cinema> createCinema(@RequestBody Cinema cinema) throws Exception {
-        if (cinema.getCinema_id() == -1) {
-            Cinema newCinema = new Cinema();
-            newCinema.setName(cinema.getName());
-            return ResponseEntity.ok().body(cinemaService.save(newCinema));
-        } else {
-            return ResponseEntity.ok().body(cinema);
-        }
+        Cinema newCinema = new Cinema();
+        newCinema.setName(cinema.getName());
+        return ResponseEntity.ok().body(cinemaService.save(newCinema));
     }
 }

@@ -12,13 +12,6 @@ public class MvcConfig implements WebMvcConfigurer {
     }
 
 //    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry
-//                .addResourceHandler("/generated/**")
-//                .addResourceLocations("/resources/generated/");
-//    }
-
-//    @Override
 //    public void addCorsMappings(CorsRegistry registry) {
 //        registry
 //                .addMapping("/**")
