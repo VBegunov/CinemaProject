@@ -1,10 +1,12 @@
 package Cinema.rest;
 
 import Cinema.model.Cinema;
+import Cinema.model.User;
 import Cinema.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,16 +42,18 @@ public class CinemaController {
     }
 
     @PutMapping
-    public ResponseEntity<Cinema> updateCinema(@RequestBody Cinema cinema) throws Exception {
+    public ResponseEntity<Cinema> updateCinema(@RequestBody Cinema cinema, @AuthenticationPrincipal User user) throws Exception {
         Cinema updateCinema = cinemaService.findById(cinema.getCinema_id());
         updateCinema.setName(cinema.getName());
+        updateCinema.setUser(user);
         return ResponseEntity.ok().body(cinemaService.update(updateCinema));
     }
 
     @PostMapping
-    public ResponseEntity<Cinema> createCinema(@RequestBody Cinema cinema) throws Exception {
+    public ResponseEntity<Cinema> createCinema(@RequestBody Cinema cinema, @AuthenticationPrincipal User user) throws Exception {
         Cinema newCinema = new Cinema();
         newCinema.setName(cinema.getName());
+        newCinema.setUser(user);
         return ResponseEntity.ok().body(cinemaService.save(newCinema));
     }
 }

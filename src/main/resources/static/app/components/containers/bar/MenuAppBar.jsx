@@ -93,7 +93,7 @@ function MenuAppBar() {
                                 href={"/"}>
                         <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>Cinemas</Typography>
+                    <Typography variant="h6" className={classes.title}>Кинотеатры</Typography>
                     {login()}
                 </Toolbar>
             </AppBar>

@@ -1,6 +1,5 @@
 package Cinema.rest;
 
-import Cinema.model.Role;
 import Cinema.model.User;
 import Cinema.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/rest/users")

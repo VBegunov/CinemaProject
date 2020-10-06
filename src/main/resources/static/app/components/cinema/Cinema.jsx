@@ -12,12 +12,15 @@ export default function Profile() {
     const history = useHistory();
     const [id, setId] = React.useState(-1);
     const [name, setName] = React.useState('');
+    const [user, setUser] = React.useState('');
 
     function getCinema() {
         CinemaService.showCinema(history.location.pathname.split(['/']).pop()).then(cinema => {
             if(history.location.pathname.split(['/']).pop()>0){
                 setId(cinema.data.cinema_id);
                 setName(cinema.data.name);
+                setUser(cinema.data.user);
+                console.log(cinema.data.user)
             }
         })
     }
@@ -30,7 +33,7 @@ export default function Profile() {
     function onSubmit() {
         let cinema = {
             cinema_id: id,
-            name: name,
+            name: name
         };
         if(id < 0){
             CinemaService.createCinema(cinema).then();
@@ -59,6 +62,9 @@ export default function Profile() {
             <form className={classes.root} onSubmit={onSubmit}>
                 <TextField id="standard-basic" label={"id"}
                            value={id} disabled/>
+                <br/>
+                <TextField id="standard-basic" label={"Изменения вносил"}
+                           value={user} disabled/>
                 <br/>
                 <TextField id="standard-basic" label={"Название кинотеатра"}
                            value={name} onChange={e => setName(e.target.value)}/>

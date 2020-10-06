@@ -27,7 +27,8 @@ import CinemaService from "./CinemaService";
 
 const headCells = [
     {id: 'cinema_id', numeric: false, disablePadding: true, label: 'id'},
-    {id: 'name', numeric: true, disablePadding: false, label: 'Название кинотеатра'}
+    {id: 'name', numeric: true, disablePadding: false, label: 'Название кинотеатра'},
+    {id: 'user', numeric: true, disablePadding: false, label: 'Последние изменение вносил'}
 ];
 
 export default function EnhancedTable() {
@@ -200,6 +201,7 @@ export default function EnhancedTable() {
 
                                             <TableCell component="th" id={labelId} scope="row" padding="none">{row.cinema_id}</TableCell>
                                             <TableCell align="right">{row.name}</TableCell>
+                                            <TableCell align="right">{row.user}</TableCell>
                                         </TableRow>
                                     );
                                 })}
