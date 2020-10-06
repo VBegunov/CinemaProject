@@ -29,8 +29,8 @@ public class CinemaController {
         return cinemaService.findAll();
     }
 
-    @GetMapping("/{cinema_id}")
-    public Cinema getCinemaById(@PathVariable("cinema_id") long id) {
+    @GetMapping("/{id}")
+    public Cinema getCinemaById(@PathVariable("id") long id) {
         return cinemaService.findById(id);
     }
 

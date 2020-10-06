@@ -20,7 +20,6 @@ export default function Profile() {
                 setId(cinema.data.cinema_id);
                 setName(cinema.data.name);
                 setUser(cinema.data.user);
-                console.log(cinema.data.user)
             }
         })
     }

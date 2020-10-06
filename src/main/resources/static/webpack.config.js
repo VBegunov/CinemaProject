@@ -8,13 +8,10 @@ module.exports = {
 
     entry: './index.js',
 
-
     output: {
         path: path.join(__dirname, 'generated'),
         filename: 'app-bundle.js'
     },
-
-
 
     resolve:
         {extensions: ['.js', '.jsx']},

@@ -5,7 +5,7 @@ class mainPage extends React.Component {
         return (
             <div>
                 <br/>
-                <div  >Сеть кинотеатров (ТЕСТ)</div>
+                <div > Сеть кинотеатров </div>
             </div>
         )
     }
