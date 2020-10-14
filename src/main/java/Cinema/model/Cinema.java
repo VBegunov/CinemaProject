@@ -9,8 +9,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
-@NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 public class Cinema implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +17,10 @@ public class Cinema implements Serializable {
 
     @NonNull
     private String name;
+
+    public Cinema(String name){
+        this.name = name;
+    }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")

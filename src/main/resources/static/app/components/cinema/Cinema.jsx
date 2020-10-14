@@ -52,12 +52,19 @@ export default function Profile() {
         }
     }
 
+
+    function checkAddOrUpdate() {
+        if(id < 0){
+            return <Typography component="h1" variant="h5">Создание кинотеатра</Typography>;
+        } else {
+            return <Typography component="h1" variant="h5">Изменение кинотеатра</Typography>;
+        }
+    }
+
     return (
         <Grid container spacing={0} direction="column" alignItems="center"
               justify="center" style={{minHeight: '80vh'}}>
-
-            <Typography component="h1" variant="h5">Кинотеатр</Typography>
-
+            {checkAddOrUpdate()}
             <form className={classes.root} onSubmit={onSubmit}>
                 <TextField id="standard-basic" label={"id"}
                            value={id} disabled/>

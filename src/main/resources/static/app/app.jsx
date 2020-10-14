@@ -15,17 +15,19 @@ class App extends Component {
     render() {
         return (
             <div>
-                <MenuAppBar/>
-                <BrowserRouter forceRefresh={true}>
-                    <Route exact path={"/"} component={mainPage}/>
-                    <Route exact path={"/login"} component={Login}/>
-                    <Route exact path={"/cinemas"} component={cinemasPage}/>
-                    <Route exact path={"/cinemas/:cinema_id"} component={Cinema}/>
-                    <Route exact path={"/users/:id"} component={User}/>
-                    <Route exact path={"/users"} component={Users} />
-                    <Route exact path={"/profile"} component={Profile}/>
-                    <Route exact path={"/registration"} component={Registration}/>
-                </BrowserRouter>
+                <header><MenuAppBar/></header>
+                <main>
+                    <BrowserRouter forceRefresh={true}>
+                        <Route exact path={"/"} component={mainPage}/>
+                        <Route exact path={"/login"} component={Login}/>
+                        <Route exact path={"/cinemas"} component={cinemasPage}/>
+                        <Route exact path={"/cinemas/:cinema_id"} component={Cinema}/>
+                        <Route exact path={"/users/:id"} component={User}/>
+                        <Route exact path={"/users"} component={Users} />
+                        <Route exact path={"/profile"} component={Profile}/>
+                        <Route exact path={"/registration"} component={Registration}/>
+                    </BrowserRouter>
+                </main>
             </div>
         )
     }

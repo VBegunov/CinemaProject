@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 
     @GetMapping("/")
-    public String greeting() {
-        return "greeting";
+    public String main() {
+        return "main";
     }
 
     @GetMapping("/cinemas")
@@ -21,18 +21,18 @@ public class MainController {
         return "cinema";
     }
 
-    @GetMapping("/users/{user_id}")
+    @GetMapping("/users")
     public String users() {
+        return "users";
+    }
+
+    @GetMapping("/users/{user_id}")
+    public String userById() {
         return "user";
     }
 
     @GetMapping("/profile")
     public String profile() {
         return "profile";
-    }
-
-    @GetMapping("/users")
-    public String userById() {
-        return "users";
     }
 }

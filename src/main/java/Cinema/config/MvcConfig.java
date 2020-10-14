@@ -11,10 +11,10 @@ public class MvcConfig implements WebMvcConfigurer {
         ;
     }
 
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry
-//                .addMapping("/**")
-//                .allowedMethods("*");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:ext-resources/")
+                .setCachePeriod(0);
+    }
 }

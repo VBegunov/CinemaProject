@@ -4,11 +4,13 @@ import Cinema.model.Cinema;
 import Cinema.model.User;
 import Cinema.service.CinemaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -54,6 +56,6 @@ public class CinemaController {
         Cinema newCinema = new Cinema();
         newCinema.setName(cinema.getName());
         newCinema.setUser(user);
-        return ResponseEntity.ok().body(cinemaService.save(newCinema));
+        return ResponseEntity.status(201).body(cinemaService.save(newCinema));
     }
 }
