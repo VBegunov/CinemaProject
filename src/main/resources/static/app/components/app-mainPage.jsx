@@ -38,7 +38,7 @@ export default function mainPage() {
                 <Grid container spacing={2}>
                     <Grid item>
                         <ButtonBase className={classes.image}>
-                            <img className={classes.img} alt="complex" src="images/grid/The_Avengers_2012_logo.jpg" />
+                            <img className={classes.img} src={'images/grid/The_Avengers_2012_logo.jpg'}  />
                         </ButtonBase>
                     </Grid>
                     <Grid item xs={12} sm container>

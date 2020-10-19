@@ -45,17 +45,13 @@ public class CinemaController {
 
     @PutMapping
     public ResponseEntity<Cinema> updateCinema(@RequestBody Cinema cinema, @AuthenticationPrincipal User user) throws Exception {
-        Cinema updateCinema = cinemaService.findById(cinema.getCinema_id());
-        updateCinema.setName(cinema.getName());
-        updateCinema.setUser(user);
-        return ResponseEntity.ok().body(cinemaService.update(updateCinema));
+        cinema.setUser(user);
+        return ResponseEntity.ok().body(cinemaService.update(cinema));
     }
 
     @PostMapping
     public ResponseEntity<Cinema> createCinema(@RequestBody Cinema cinema, @AuthenticationPrincipal User user) throws Exception {
-        Cinema newCinema = new Cinema();
-        newCinema.setName(cinema.getName());
-        newCinema.setUser(user);
-        return ResponseEntity.status(201).body(cinemaService.save(newCinema));
+        cinema.setUser(user);
+        return ResponseEntity.status(201).body(cinemaService.create(cinema));
     }
 }

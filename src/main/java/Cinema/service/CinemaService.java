@@ -1,22 +1,26 @@
 package Cinema.service;
 
 import Cinema.model.Cinema;
+import Cinema.model.User;
 import Cinema.repository.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CinemaService {
 
+    private final CinemaRepository cinemaRepository;
+    private final UserService userService;
+
     @Autowired
-    private CinemaRepository cinemaRepository;
+    public CinemaService(CinemaRepository cinemaRepository, UserService userService) {
+        this.cinemaRepository = cinemaRepository;
+        this.userService = userService;
+    }
+
 
     private boolean existsById(Long id) {
         return cinemaRepository.existsById(id);
@@ -26,22 +30,17 @@ public class CinemaService {
         return cinemaRepository.findById(id).orElse(null);
     }
 
-    public List<Cinema> findAll(int pageNumber, int rowPerPage) {
-        List<Cinema> cinemas = new ArrayList<>();
-        Pageable sortedByLastUpdateDesc = PageRequest.of(pageNumber - 1, rowPerPage,
-                Sort.by("name").ascending());
-        cinemaRepository.findAll(sortedByLastUpdateDesc).forEach(cinemas::add);
-        return cinemas;
-    }
-
-    public Cinema save(Cinema cinema) throws Exception {
+    public Cinema create(Cinema cinema) throws Exception {
         if (StringUtils.isEmpty(cinema.getName())) {
             throw new Exception("Name is required");
         }
         if (cinema.getCinema_id() != null && existsById(cinema.getCinema_id())) {
             throw new Exception("Cinema with id: " + cinema.getCinema_id() + " already exists");
         }
-        return cinemaRepository.save(cinema);
+        Cinema createCinema = new Cinema();
+        createCinema.setName(cinema.getName());
+        createCinema.setUser((User) userService.loadUserByUsername(cinema.getUser()));
+        return cinemaRepository.save(createCinema);
     }
 
     public Cinema update(Cinema cinema) throws Exception {
@@ -51,14 +50,15 @@ public class CinemaService {
         if (!existsById(cinema.getCinema_id())) {
             throw new Exception("Cannot find Cinema with id: " + cinema.getCinema_id());
         }
+        Cinema newCinema = new Cinema();
+        newCinema.setName(cinema.getName());
         return cinemaRepository.save(cinema);
     }
 
     public void deleteById(Long id) throws Exception {
         if (!existsById(id)) {
             throw new Exception("Cannot find Cinema with id: " + id);
-        }
-        else {
+        } else {
             cinemaRepository.deleteById(id);
         }
     }
@@ -66,7 +66,6 @@ public class CinemaService {
     public Long count() {
         return cinemaRepository.count();
     }
-
 
     public List<Cinema> findByName(String name) {
         return cinemaRepository.findByName(name);

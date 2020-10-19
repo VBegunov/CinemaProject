@@ -5,8 +5,27 @@ import Button from '@material-ui/core/Button';
 import UserService from "../../users/UserService";
 import Typography from "@material-ui/core/Typography";
 import Box from '@material-ui/core/Box';
+import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
-function MenuAppBar() {
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
+    },
+}));
+
+
+export default function MenuAppBar() {
+    const classes = useStyles();
 
     const [authADMIN, setAuthADMIN] = React.useState(false);
     const [auth, setAuth] = React.useState(false);
@@ -47,7 +66,7 @@ function MenuAppBar() {
 
     const login = () => {
         if (!auth) {
-            return <Button color="inherit" href={"login"}> <Typography> Войти </Typography> </Button>
+            return <Button href={"login"}> <Typography variant="button" display="block"> LOGIN </Typography> </Button>
         } else {
             return <Box>
                 <Button aria-controls="simple-menu" aria-haspopup="true" disabled>
@@ -73,15 +92,24 @@ function MenuAppBar() {
     };
 
     return (
-        <Box bgcolor="#e1f5fe" boxShadow={3} display="flex" justifyContent="flex-end" m={1} p={1}>
-            <Box flexGrow={1} bgcolor="">
-                <Button href="/">
-                    Кинотеатры
-                </Button>
-            </Box>
-            {login()}
-        </Box>
+        <div className={classes.root}>
+            <CssBaseline/>
+            <AppBar position="static" style={{ background: '#e1f5fe' }}>
+                <Toolbar variant="dense">
+
+                    <Button href={"/"}>
+                        <Typography variant="button" display="block">
+                            Mane page
+                        </Typography>
+                    </Button>
+
+                    <Button style={{flexGrow:1}} disabled/>
+
+                    {login()}
+
+                </Toolbar>
+            </AppBar>
+        </div>
+
     );
 }
-
-export default MenuAppBar
