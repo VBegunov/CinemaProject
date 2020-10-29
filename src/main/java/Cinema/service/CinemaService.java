@@ -39,7 +39,7 @@ public class CinemaService {
         }
         Cinema createCinema = new Cinema();
         createCinema.setName(cinema.getName());
-        createCinema.setUser((User) userService.loadUserByUsername(cinema.getUser()));
+        createCinema.setUser(cinema.getUser());
         return cinemaRepository.save(createCinema);
     }
 

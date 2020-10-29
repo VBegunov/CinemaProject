@@ -1,5 +1,6 @@
 package Cinema.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,13 +19,19 @@ import java.util.Set;
 public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(ViewUser.REST.class)
     private Long id;
 
-    @NotNull
+    @JsonView({ViewUser.UI.class, ViewUser.REST.class})
     private String username;
+
+    @JsonView(ViewUser.REST.class)
     private String password;
+
+    @JsonView({ViewUser.UI.class, ViewUser.REST.class})
     private boolean active;
 
+    @JsonView({ViewUser.UI.class, ViewUser.REST.class})
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

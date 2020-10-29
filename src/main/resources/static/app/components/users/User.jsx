@@ -127,6 +127,14 @@ export default function SimpleSelect() {
         }
     }
 
+    function checkUserCreateUpdate() {
+        if(id=== -1){
+            return "Создать"
+        } else {
+            return "Изменить"
+        }
+    }
+
     function checkRole() {
         let role;
         roles.map(index => role = index);
@@ -192,7 +200,7 @@ export default function SimpleSelect() {
                         className={classes.submit}
                         >
                     <Typography component="h5">
-                        Изменить
+                        {checkUserCreateUpdate()}
                     </Typography>
                 </Button>
             </form>

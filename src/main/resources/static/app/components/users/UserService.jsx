@@ -25,12 +25,10 @@ class UserService {
     }
 
     createUser(user) {
-        console.log("create", user)
         return axios.post(`${USER_URL}`, user);
     }
 
     registrationUser(user) {
-        console.log("create", user)
         return axios.post(`http://localhost:8080/registration`, user);
     }
 }

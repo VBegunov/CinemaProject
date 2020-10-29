@@ -201,7 +201,7 @@ export default function EnhancedTable() {
 
                                             <TableCell component="th" id={labelId} scope="row" padding="none">{row.cinema_id}</TableCell>
                                             <TableCell align="right">{row.name}</TableCell>
-                                            <TableCell align="right">{row.user}</TableCell>
+                                            <TableCell align="right">{row.userName}</TableCell>
                                         </TableRow>
                                     );
                                 })}

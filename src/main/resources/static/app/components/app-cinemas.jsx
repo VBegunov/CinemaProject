@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ListCinemaComponent from "./cinema/CinemaList";
+import ListCinema from "./cinema/CinemaList";
 
 class cinemasPage extends Component {
 
@@ -7,7 +7,7 @@ class cinemasPage extends Component {
         return (
             <div>
                 <div align={"center"}>Список кинотеатров</div>
-                <ListCinemaComponent/>
+                <ListCinema/>
             </div>
         )
     }

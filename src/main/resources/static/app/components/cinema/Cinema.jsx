@@ -19,7 +19,7 @@ export default function Profile() {
             if(history.location.pathname.split(['/']).pop()>0){
                 setId(cinema.data.cinema_id);
                 setName(cinema.data.name);
-                setUser(cinema.data.user);
+                setUser(cinema.data.userName);
             }
         })
     }

@@ -2,14 +2,19 @@ package Cinema;
 
 import Cinema.model.Cinema;
 import Cinema.model.User;
+import Cinema.repository.CinemaRepository;
 import Cinema.rest.CinemaController;
+import Cinema.service.CinemaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
@@ -17,11 +22,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
@@ -32,7 +38,7 @@ public class MainControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
     private CinemaController cinemaController;
 
     @Test
@@ -59,14 +65,14 @@ public class MainControllerTest {
     public void addCinemasTest() throws Exception {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Cinema testCinema = new Cinema(-1L, "Test Cinema", user);
+        given(cinemaController.createCinema(any(Cinema.class), any(User.class))).willReturn(ResponseEntity.status(201).body(testCinema));
         this.mockMvc.perform(post("/rest/cinemas")
-                        .content(asJsonString(testCinema))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
-                .andExpect(status().isCreated())
+                .content(asJsonString(testCinema))
+                .contentType(MediaType.APPLICATION_JSON)
+        )
                 .andExpect(authenticated())
-                .andExpect(jsonPath("$.cinema_id").exists());
+                .andExpect(status().isCreated())
+                .andExpect(content().json(asJsonString(testCinema)));
     }
 
     @Test
@@ -82,7 +88,6 @@ public class MainControllerTest {
                 .andExpect(authenticated())
                 .andExpect(jsonPath("$.cinema_id").exists());
     }
-
 
 
     private static String asJsonString(final Object obj) {
