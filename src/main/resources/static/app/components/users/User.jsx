@@ -10,7 +10,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import UserService from "./UserService";
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -120,21 +120,16 @@ export default function SimpleSelect() {
     };
 
     function checkActive() {
-        if (active) {
-            return "Активный пользователь"
-        } else {
-            return "Заблокированный пользователь"
-        }
+        return active ? "Активный пользователь" : "Заблокированный пользователь";
     }
 
     function checkRole() {
-        let role;
-        roles.map(index => role = index);
-        if(role === 'ADMIN'){
-            return "Администратор"
-        } else{
-            return "Пользователь"
-        }
+        const role = roles.entries().next().value;
+        return role === 'ADMIN' ? "Администратор" : "Пользователь";
+    }
+
+    function checkUpdateDelete() {
+        return id === -1 ? "Создать" : "Изменить";
     }
 
     return (
@@ -192,7 +187,7 @@ export default function SimpleSelect() {
                         className={classes.submit}
                         >
                     <Typography component="h5">
-                        Изменить
+                        {checkUpdateDelete()}
                     </Typography>
                 </Button>
             </form>

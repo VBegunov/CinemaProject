@@ -49,24 +49,20 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User newUser = new User();
-        newUser.setPassword(user.getPassword());
-        newUser.setUsername(user.getUsername());
-        newUser.setActive(user.isActive());
-        newUser.setRoles(user.getRoles());
-        System.out.println(newUser + "create");
-        return ResponseEntity.ok().body(userService.save(newUser));
+    public ResponseEntity<?> createUser(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok().body(userService.create(user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("User exists!");
+        }
     }
 
     @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        User updateUser = userService.findById(user.getId());
-        updateUser.setUsername(user.getUsername());
-        updateUser.setPassword(user.getPassword());
-        updateUser.setRoles(user.getRoles());
-        updateUser.setActive(user.isActive());
-        System.out.println(updateUser + "update");
-        return ResponseEntity.ok().body(userService.update(updateUser));
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok().body(userService.update(user));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("User is not found");
+        }
     }
 }

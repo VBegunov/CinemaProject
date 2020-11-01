@@ -26,20 +26,19 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registrationUser(@RequestBody User user, Map<String, Object> model) {
+    public String registrationUser(@RequestBody User user, Map<String, Object> model) throws Exception {
         User userFromDb = (User) userService.loadUserByUsername(user.getUsername());
         if (userFromDb != null) {
             model.put("message", "User exists!");
             return "registration";
         }
-
         User newUser = new User();
         newUser.setPassword(user.getPassword());
         newUser.setUsername(user.getUsername());
         newUser.setActive(user.isActive());
         newUser.setRoles(user.getRoles());
         System.out.println(newUser + "registration");
-        userService.save(newUser);
+        userService.create(newUser);
         return "redirect:/login";
     }
 }

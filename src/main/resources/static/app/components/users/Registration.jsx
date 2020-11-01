@@ -9,16 +9,6 @@ import Container from '@material-ui/core/Container';
 import UserService from "./UserService";
 import { useHistory } from "react-router-dom";
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -104,9 +94,6 @@ export default function Registration() {
                     </Button>
                 </form>
             </div>
-            <Box mt={8}>
-                <Copyright/>
-            </Box>
         </Container>
 
     );
